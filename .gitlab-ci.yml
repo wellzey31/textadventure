@@ -1,0 +1,48 @@
+stages:
+   - build
+   - test
+   - quality
+   - documentation
+
+buildTests:
+   stage: build
+   script:
+      - make test_team-a
+   artifacts:
+      paths:
+         - test_team-a
+
+staticAnalysis:
+   stage: quality
+   script:
+      - make static
+
+style:
+   stage: quality
+   script:
+      - make style
+      
+coverage:
+   stage: quality
+   script:
+      - make coverage
+   artifacts:
+     paths:
+      - coverage
+
+memoryLeaks:
+   stage: quality
+   script:
+      - make memcheck
+   artifacts:
+      paths:
+         - memcheck.xml
+
+docs:
+   stage: documentation
+   script:
+      - make docs
+   artifacts:
+      paths:
+         - docs
+      expire_in: 14 days
